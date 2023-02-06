@@ -55,7 +55,28 @@ app.route("/articles")
     });
 
 
+app.route("/articles/:articleTitle")
+.get( 
+    function(req, res){
+        const queriedPost = req.params.articleTitle;
+        Article.findOne({title: queriedPost}, function(err, foundArticle){
+            if(!err){
+                res.send(foundArticle);
+            }
+            else{
+                res.send("No article matching that title was found"); 
+            }   
+        })
+}
+).post( function(req, res){
 
+}
+)
+.delete( function(req, res){
+
+
+}
+);
 
 app.listen(3000, function (req, res) {
     console.log("Server started on port 3000");
