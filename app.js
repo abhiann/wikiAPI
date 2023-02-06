@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 mongoose.connect("mongodb://127.0.0.1:27017/wikiDB", {useNewUrlParser: true});
+
 const articleSchema = {
     title: String,
     content: String
@@ -28,12 +29,18 @@ app.get("/articles", function(req, res){
 });
 
 app.post("/articles", function(req, res){
-    const article = new Article({
+    const newArticle = new Article({
         title: req.body.title,
         content: req.body.content
     });
-    article.save();
-    res.send("saved to database");
+    newArticle.save(function(err){
+        if(err){
+            res.send(err);
+        }
+        else{
+            res.send("saved to database");
+        }
+    });  
 })
 
 
